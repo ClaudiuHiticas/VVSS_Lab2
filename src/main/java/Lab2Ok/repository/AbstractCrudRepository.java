@@ -52,7 +52,7 @@ public abstract class AbstractCrudRepository <ID, E extends HasID<ID>> implement
         E el = this.findOne(entity.getID());
         if (el==null){
             this.elemente.put(entity.getID(), entity);
-            return null;
+            return null;    //Change from empty to null
         }
         else return el;
 

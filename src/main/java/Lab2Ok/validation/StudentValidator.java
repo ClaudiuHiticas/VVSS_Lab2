@@ -11,7 +11,7 @@ public class StudentValidator implements Validator<Student> {
      */
     @Override
     public void validate(Student entity) throws ValidationException {
-        if(entity.getID() == null){
+        if(entity.getID() == null){     //change from entity.getID().equals("")
             throw new ValidationException("Id incorect!");
         }
         if(entity.getEmail() == null){
