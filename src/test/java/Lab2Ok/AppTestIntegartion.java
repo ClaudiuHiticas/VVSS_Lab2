@@ -20,17 +20,10 @@ import static org.junit.Assert.assertThat;
 public class AppTestIntegartion extends TestCase {
     private String filenameStudent = "fisiere/test/Studenti.xml";
     private String filenameTema = "fisiere/test/Teme.xml";
-    private String filenameNote = "fisiere/test/Note.xml";
-    private TemaValidator temaValidator = new TemaValidator();
-    private TemaXMLRepo temaXMLRepo = new TemaXMLRepo(filenameTema);
     private StudentValidator studentValidator = new StudentValidator();
-    ;
     private StudentXMLRepo studentXMLRepository = new StudentXMLRepo(filenameStudent);
-    ;
-    private NotaValidator notaValidator = new NotaValidator(studentXMLRepository, temaXMLRepo);
-    private NotaXMLRepo notaXMLRepo = new NotaXMLRepo(filenameNote);
-    Service service = new Service(studentXMLRepository, studentValidator, temaXMLRepo, temaValidator, notaXMLRepo, notaValidator);
-    ;
+    Service service = new Service(studentXMLRepository, studentValidator, null, null, null, null);
+
 
     private void cleanUpStudent() {
         ArrayList<Student> list = new ArrayList<Student>();
