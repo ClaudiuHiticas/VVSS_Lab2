@@ -20,6 +20,9 @@ public class AppTestWBT extends TestCase {
     StudentValidator studentValidator;
     String filenameStudent = "fisiere/test/Studenti.xml";
     private StudentXMLRepo studentXMLRepository;
+    private TemaValidator temaValidator;
+    private String filenameTema = "fisiere/test/Teme.xml";
+    private TemaXMLRepo temaXMLRepo;
     Service service;
 
 
@@ -73,6 +76,29 @@ public class AppTestWBT extends TestCase {
             service.addStudent(student1);
         } catch (ValidationException validationException) {
             assertThat(validationException.getMessage(), is("Id incorect!"));
+        }
+    }
+
+    @Test
+    public void test_tc_1_duplicate_id_tema() {
+        temaValidator = new TemaValidator();
+        temaXMLRepo = new TemaXMLRepo(filenameTema);
+        service = new Service(null, null, temaXMLRepo, temaValidator, null, null);
+        Tema tema = new Tema("1","Lab2",12,12);
+        assertNull(service.addTema(tema));
+    }
+
+
+    @Test
+    public void test_tc_2_invalid_deadline_tema() {
+        temaValidator = new TemaValidator();
+        temaXMLRepo = new TemaXMLRepo(filenameTema);
+        service = new Service(null, null, temaXMLRepo, temaValidator, null, null);
+        Tema tema = new Tema("1","Lab2",543,12);
+        try {
+            service.addTema(tema);
+        } catch (ValidationException validationException) {
+            assertThat(validationException.getMessage(), is("Deadlineul trebuie sa fie intre 1-14."));
         }
     }
 
