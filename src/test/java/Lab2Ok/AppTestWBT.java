@@ -2,9 +2,11 @@ package Lab2Ok;
 
 import Lab2Ok.domain.Student;
 import Lab2Ok.domain.Tema;
+import Lab2Ok.repository.NotaXMLRepo;
 import Lab2Ok.repository.StudentXMLRepo;
 import Lab2Ok.repository.TemaXMLRepo;
 import Lab2Ok.service.Service;
+import Lab2Ok.validation.NotaValidator;
 import Lab2Ok.validation.StudentValidator;
 import Lab2Ok.validation.TemaValidator;
 import Lab2Ok.validation.ValidationException;
@@ -23,6 +25,7 @@ public class AppTestWBT extends TestCase {
     private TemaValidator temaValidator;
     private String filenameTema = "fisiere/test/Teme.xml";
     private TemaXMLRepo temaXMLRepo;
+    private String filenameNota = "fisiere/test data/Note.xml";
     Service service;
 
 
@@ -85,7 +88,7 @@ public class AppTestWBT extends TestCase {
         temaXMLRepo = new TemaXMLRepo(filenameTema);
         service = new Service(null, null, temaXMLRepo, temaValidator, null, null);
         Tema tema = new Tema("1","Lab2",12,12);
-        assertNull(service.addTema(tema));
+        assertNotNull(service.addTema(tema));
     }
 
 
@@ -102,4 +105,21 @@ public class AppTestWBT extends TestCase {
         }
     }
 
+    @Test
+    public void tc_9() {
+        StudentValidator studentValidator = new StudentValidator();
+        TemaValidator temaValidator = new TemaValidator();
+
+        StudentXMLRepo studentXMLRepository = new StudentXMLRepo(filenameStudent);
+        TemaXMLRepo temaXMLRepository = new TemaXMLRepo(filenameTema);
+        NotaValidator notaValidator = new NotaValidator(studentXMLRepository, temaXMLRepository);
+        NotaXMLRepo notaXMLRepository = new NotaXMLRepo(filenameNota);
+        Service service = new Service(studentXMLRepository, studentValidator, temaXMLRepository, temaValidator, notaXMLRepository, notaValidator);
+
+        Tema elem1 = new Tema("1", "d1", 2, 1);
+        service.addTema(elem1);
+        Tema elem2 = new Tema("1", "d2", 2, 1);
+        Tema actualValue = service.addTema(elem2);
+        assertEquals(elem1, actualValue);
+    }
 }
