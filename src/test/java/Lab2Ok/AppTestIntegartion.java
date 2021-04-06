@@ -98,5 +98,28 @@ public class AppTestIntegartion extends TestCase {
         test_add_grade();
     }
 
+    @Test
+    public void test_add_student_2() {
+        cleanUpStudent();
+        Student student = new Student("111", "nume", 933, "nume@nume.com");
+        assertNull(service.addStudent(student));
+    }
+
+    @Test
+    public void test_add_tema_2() {
+        test_add_student_2();
+        cleanUpTema();
+        Tema tema = new Tema("1211", "Lab2", 5, 2);
+        assertNull(service.addTema(tema));
+    }
+
+    @Test
+    public void test_add_grade_2() {
+        test_add_student_2();
+        test_add_tema_2();
+        service.deleteNota("1111");
+        Nota nota = new Nota("111", "111", "1211", 9, LocalDate.of(2018, 11, 1));
+        assertNull(service.addNota(nota, "super super"));
+    }
 
 }
